@@ -18,7 +18,11 @@ public class Medicion {
             }
             return (double)numero;
         }
+
     }
+
+    public static int TAMANYO_REGISTRO=8+8+8+4;
+
     private double temperaturaMaxima;
     private double temperaturaMinima;
     private double temperaturaMedia;

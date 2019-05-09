@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 public class Periodo {
     int anyo;
     Medicion[] mediciones;
@@ -42,5 +47,31 @@ public class Periodo {
                 .anyadirMedicion("Mayo", 34, 54, 65, 75)
                 .anyadirMedicion("Julio", 34, 54, 65, 75).info());
         System.out.println(p.info());
+    }
+
+    public void grabaEnDisco(File directorioEstacion) {
+        File fichero=new File(directorioEstacion,this.anyo+".dat");
+        try(RandomAccessFile raf=new RandomAccessFile(fichero,"rw")){
+            for (Medicion m :
+                    this.mediciones) {
+                if(m==null){
+                    raf.writeDouble(Double.MIN_VALUE);
+                    raf.writeDouble(0);
+                    raf.writeDouble(0);
+                    raf.writeInt(0);
+                } else {
+                    raf.writeDouble(m.getTemperaturaMaxima());
+                    raf.writeDouble(m.getTemperaturaMinima());
+                    raf.writeDouble(m.getTemperaturaMedia());
+                    raf.writeInt(m.getPrecipitacion());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            System.out.println("ERRRRRORRRR");
+        }
     }
 }
